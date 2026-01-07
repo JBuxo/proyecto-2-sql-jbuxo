@@ -5,6 +5,17 @@
 -- =========================================================
 -- 1. VISIÓN GENERAL DE INGRESOS
 -- =========================================================
+-- Total de ingrsos y numero de transacciones
+SELECT 
+    COUNT(sale_id) AS total_transactions,
+    SUM(sales_amount) AS total_revenue
+FROM fact_sales;
+
+-- Valor promedio por venta
+SELECT 
+    AVG(sales_amount) AS avg_sale_value
+FROM fact_sales;
+
 
 -- Agregación simple de ventas por región
 SELECT 
@@ -15,6 +26,8 @@ FROM fact_sales f
 JOIN dim_region r ON f.region_id = r.region_id
 GROUP BY r.region_name
 ORDER BY total_revenue DESC;
+
+
 
 -- =========================================================
 -- 2. CANALES DE VENTA
@@ -71,9 +84,19 @@ SELECT *,
 FROM monthly_region
 ORDER BY year, month, region_rank;
 
--- Uso de la vista: ventas mensuales por región
+-- Uso de la vista: ventas mensuales por región ordenado por ingresos
 SELECT *
 FROM vw_monthly_region_sales
+ORDER BY total_revenue DESC;
+
+-- Ventas por mes de mayor a menor
+SELECT 
+    d.year,
+    d.month_name,
+    SUM(f.sales_amount) AS total_revenue
+FROM fact_sales f
+JOIN dim_date d ON f.date_id = d.date_id
+GROUP BY d.year, d.month, d.month_name
 ORDER BY total_revenue DESC;
 
 -- Ventas por mes y día (granularidad diaria)
@@ -113,6 +136,40 @@ SELECT
     ) AS pct_change
 FROM monthly_revenue
 ORDER BY year, month;
+
+-- Crecimiento mensual de ingresos de mayor a menor  por porcentage
+WITH monthly_revenue AS (
+    SELECT 
+        d.year,
+        d.month,
+        d.month_name,
+        SUM(f.sales_amount) AS total_revenue
+    FROM fact_sales f
+    JOIN dim_date d ON f.date_id = d.date_id
+    GROUP BY d.year, d.month, d.month_name
+),
+growth AS (
+    SELECT
+        year,
+        month,
+        month_name,
+        total_revenue,
+        total_revenue
+            - LAG(total_revenue) OVER (ORDER BY year, month) AS revenue_diff,
+        (total_revenue
+            - LAG(total_revenue) OVER (ORDER BY year, month))
+            * 100.0
+            / NULLIF(LAG(total_revenue) OVER (ORDER BY year, month), 0) AS pct_change
+    FROM monthly_revenue
+)
+SELECT
+    year,
+    month_name,
+    total_revenue,
+    revenue_diff,
+    pct_change
+FROM growth
+ORDER BY pct_change DESC NULLS LAST;
 
 -- =========================================================
 -- 4. CLIENTES
@@ -207,6 +264,15 @@ ORDER BY total_revenue DESC;
 -- =========================================================
 -- 8. ANÁLISIS CRUZADO
 -- =========================================================
+
+-- region por ventas totales
+SELECT 
+    r.region_name,
+    SUM(f.sales_amount) AS total_revenue
+FROM fact_sales f
+JOIN dim_region r ON f.region_id = r.region_id
+GROUP BY r.region_name
+ORDER BY total_revenue DESC;
 
 -- Regiones top por ventas y canal
 SELECT 
