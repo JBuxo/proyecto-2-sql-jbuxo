@@ -1,8 +1,8 @@
 -- =========================================================
 -- ANÁLISIS EXPLORATORIO DE DATOS (EDA)
 -- =========================================================
-
--- SELECT * FROM raw_sales LIMIT 5;
+SELECT * FROM raw_sales LIMIt 5;
+SELECT * FROM fact_sales LIMIT 5;
 
 -- =========================================================
 -- 1. VISIÓN GENERAL DE INGRESOS

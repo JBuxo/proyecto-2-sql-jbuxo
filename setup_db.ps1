@@ -1,8 +1,8 @@
-# Path to SQLite executable (relative to current folder)
+# paths a ejecutables
 $sqlite = ".\sqlite3.exe"
 $db = ".\sales.db"
 $schema = ".\01_schema.sql"
-$csv = ".\raw_sales.csv"
+$csv = ".\sales_data.csv"
 
 # crear db y schema
 Write-Output "Creating database and applying schema..."
