@@ -1,8 +1,10 @@
-
-
 -- =========================================================
 -- CONFIGURACIÓN INICIAL
 -- =========================================================
+-- Commando local para ejecutar script sqlite
+-- & "C:\Users\joseb_m\sqlite\sqlite3.exe" "C:\Users\joseb_m\OneDrive\SBAFOR~1\GitHub\PROYEC~1\sales.db" ".read C:\Users\joseb_m\OneDrive\SBAFOR~1\GitHub\PROYEC~1\01_schema.sql"
+
+
 -- Activamos el uso de llaves foráneas en SQLite
 PRAGMA foreign_keys = ON;
 
