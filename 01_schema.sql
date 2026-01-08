@@ -1,4 +1,24 @@
 -- =========================================================
+-- Raw Sales
+-- =========================================================
+CREATE TABLE IF NOT EXISTS raw_sales (
+    Product_ID TEXT,
+    Sale_Date TEXT,
+    Sales_Rep TEXT,
+    Region TEXT,
+    Sales_Amount REAL,
+    Quantity_Sold INTEGER,
+    Product_Category TEXT,
+    Unit_Cost REAL,
+    Unit_Price REAL,
+    Customer_Type TEXT,
+    Discount REAL,
+    Payment_Method TEXT,
+    Sales_Channel TEXT,
+    Region_and_Sales_Rep TEXT
+);
+
+-- =========================================================
 -- CONFIGURACIÓN INICIAL
 -- =========================================================
 -- Activamos el uso de llaves foráneas en SQLite
