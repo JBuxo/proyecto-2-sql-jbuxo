@@ -1,5 +1,13 @@
+
+
 -- =========================================================
--- Raw Sales
+-- CONFIGURACIÓN INICIAL
+-- =========================================================
+-- Activamos el uso de llaves foráneas en SQLite
+PRAGMA foreign_keys = ON;
+
+-- =========================================================
+-- Raw Sales para convertir CSV a sql
 -- =========================================================
 CREATE TABLE IF NOT EXISTS raw_sales (
     Product_ID TEXT,
@@ -17,12 +25,6 @@ CREATE TABLE IF NOT EXISTS raw_sales (
     Sales_Channel TEXT,
     Region_and_Sales_Rep TEXT
 );
-
--- =========================================================
--- CONFIGURACIÓN INICIAL
--- =========================================================
--- Activamos el uso de llaves foráneas en SQLite
-PRAGMA foreign_keys = ON;
 
 -- =========================================================
 -- TABLAS DIMENSIÓN
